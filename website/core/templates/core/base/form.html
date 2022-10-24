@@ -1,0 +1,50 @@
+{% extends "core/index.html" %}
+ 
+{% block form %}
+
+<div class="container min-w-fit mx-auto w-3/5 mt-4">
+    <div class="container mx-auto h-20 w-full bg-slate-600 rounded-t-lg py-4">
+        <div class="container mx-auto h-10 w-1/2 pt-2 bg-slate-500 rounded-full">
+            <p class="text-lg text-center text-white">Humanities Prep. Job Submission Form</p>
+        </div>
+    </div>
+    <div class="container mx-auto px-5 py-5 bg-slate-400 rounded-b-lg">
+        <form action="/app/form/" method="post">
+            {% csrf_token %}
+            {% for field in fields %}
+    
+            <div>
+                {% if field == "time" %}
+
+                <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+                <div></div>
+                <input type="date" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}">
+
+                {% elif field == "description" %}
+
+                <div class="py-2">
+                    <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+                    <div></div>
+                    <textarea class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}" cols="30" rows="4"></textarea>
+                </div>
+
+                {% elif field != "time" or "description" %}
+
+                <div class="py-2">
+                    <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+                    <div></div>
+                    <input type="text" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}">
+                </div>
+
+                {% endif %}
+            </div>
+            
+            {% endfor %}
+            
+            <input type="submit" class="mt-4 py-1 px-1 rounded-lg bg-slate-300 hover:bg-slate-500" value="Submit">
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
