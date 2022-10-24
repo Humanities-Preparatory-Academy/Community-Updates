@@ -9,38 +9,55 @@
         </div>
     </div>
     <div class="container mx-auto px-5 py-5 bg-slate-400 rounded-b-lg">
-        <form action="/app/form/" method="post">
-            {% csrf_token %}
-            {% for field in fields %}
-    
-            <div>
-                {% if field == "time" %}
 
+        {% if endpoint != "edit" %}
+        
+        <form action="/app/form/" method="post">
+        
+        {% else %}
+
+        <form action="/app/form/edit/{{ job_id }}" method="post">
+
+        {% endif %}
+
+            {% csrf_token %}
+
+            {% for field in fields %}
+
+            {% if field == "title" %}
+
+            <div class="py-2">
                 <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
                 <div></div>
-                <input type="date" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}">
-
-                {% elif field == "description" %}
-
-                <div class="py-2">
-                    <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
-                    <div></div>
-                    <textarea class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}" cols="30" rows="4"></textarea>
-                </div>
-
-                {% elif field != "time" or "description" %}
-
-                <div class="py-2">
-                    <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
-                    <div></div>
-                    <input type="text" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}">
-                </div>
-
-                {% endif %}
+                <input type="text" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}" value="{{ field_title }}">
             </div>
-            
+
+            {% elif field == "description" %}
+
+            <div class="py-2">
+                <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+                <div></div>
+                <textarea class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}" cols="30" rows="4" >{{ field_description }}</textarea>
+            </div>
+
+            {% elif field == "url" %}
+
+            <div class="py-2">
+                <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+                <div></div>
+                <input type="text" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}" value="{{ field_url }}">
+            </div>
+
+            {% elif field == "time" %}
+
+            <label class="text-md" for="id_{{ field }}">{{ field|capfirst }}:</label>
+            <div></div>
+            <input type="date" class="rounded bg-slate-200" name="{{ field }}" required id="id_{{ field }}">
+
+            {% endif %}
+
             {% endfor %}
-            
+
             <input type="submit" class="mt-4 py-1 px-1 rounded-lg bg-slate-300 hover:bg-slate-500" value="Submit">
         </form>
     </div>

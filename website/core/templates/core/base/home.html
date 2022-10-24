@@ -19,7 +19,8 @@
 
             <div class="">
                 <div class="">
-                    <p class="text-2xl">{{ job.title }} <span class="inline float-right underline text-sm">edit</span></p>
+                    {{ job.id }}
+                    <p class="text-2xl">{{ job.title }} <span class="inline float-right underline text-sm"><a href="/app/form/edit/{{ job.id }}">edit</a></span></p>
                     <p class="underline">{{ job.url }}</p>
                     <p>Posted: {{ job.time_posted }}</p>
                 </div>
