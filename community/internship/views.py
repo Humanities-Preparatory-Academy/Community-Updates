@@ -25,6 +25,19 @@ class Internship(View):
 
         return render(request, 'internship/internships.html', ctx)
 
+class InternshipSelective(View):
+
+    @xframe_options_exempt
+    def get(self, request, *args, **kwargs):
+
+        job = Job.objects.get(pk=kwargs['internship'])
+
+        ctx = {
+            "job": job
+        }
+
+        return render(request, 'internship/internship-selective.html', ctx)
+
 class InternshipForm(View):
 
     def get(self, request, *args, **kwargs):
