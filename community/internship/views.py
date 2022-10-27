@@ -19,8 +19,10 @@ class Internship(View):
 
         all_jobs = Job.objects.all()
 
+        jobs = all_jobs.order_by('-time_posted')
+
         ctx = {
-            "jobs": all_jobs
+            "jobs": jobs
         }
 
         return render(request, 'internship/internships.html', ctx)
@@ -37,6 +39,18 @@ class InternshipSelective(View):
         }
 
         return render(request, 'internship/internship-selective.html', ctx)
+
+class InternshipFilter(View):
+
+    def post(self, request, *args, **kwargs):
+
+        ctx = {
+            "jobs": None
+        }
+
+        # Return in a filtered context
+
+        return render(request, 'internship/internships.html', ctx)
 
 class InternshipForm(View):
 

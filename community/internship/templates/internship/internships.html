@@ -5,7 +5,8 @@
 {% for job in jobs %}
 <div class="container mx-auto w-1/2 mt-4 px-4 py-4 bg-neutral-100 border-2 border-neutral-400 drop-shadow-lg rounded-lg">
     <p class="text-lg font-bold underline">{{ job.title }}<span class="float-right mr-2 text-md font-light underline"><a href="/internships/edit/{{ job.id }}">Edit</a></span></p>
-    <p class="mt-2 underline">{{ job.url }}</p>
+    <p class="text-sm">Date Posted: {{ job.time_posted }}</p>
+    <p class="mt-1 underline">{{ job.url }}</p>
     <p class="mt-2">
       {{ job.description }}
     </p>
