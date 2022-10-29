@@ -14,9 +14,13 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a href="/home">Homepage</a></li>
           <li><a href="/internships">Internships</a></li>
+          {% if 'user' in request.session %}
+          <li> <a href="/auth/logout/">Logout</a></li>
+          {% endif %}
+          {% if 'user' not in request.session %}
           <li> <a href="/auth/login/">Login</a></li>
+          {% endif %}
           <li><a>About</a></li>
         </ul>
       </div>
@@ -26,15 +30,15 @@
     </div>
     <div class="navbar-end">
         <div class="form-control">
-            <input type="text" placeholder="Search" class="input input-bordered" />
+            <!--<input type="text" placeholder="Search" class="input input-bordered" />-->
         </div>
     </div>
   </div>
   <div class="hero bg-base-200">
     <div class="hero-content text-center">
       <div class="max-w-md">
-        <h1 class="text-5xl font-bold">Community Updates</h1>
-        <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+        <h1 class="text-5xl font-bold">Internship Updates</h1>
+        <p class="py-6"></p>
         <!--<button class="btn btn-primary">Get Started</button>-->
       </div>
     </div>

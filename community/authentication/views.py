@@ -16,12 +16,6 @@ oauth.register(
     }
 )
 
-def info(request):
-    user = request.session.get('user')
-    if user:
-        user = json.dumps(user)
-    return render(request, 'core/auth/info.html', context={'user': user})
-
 def login(request):
     redirect_uri = request.build_absolute_uri(reverse('auth'))
     return oauth.google.authorize_redirect(request, redirect_uri)
@@ -29,8 +23,8 @@ def login(request):
 def auth(request):
     token = oauth.google.authorize_access_token(request)
     request.session['user'] = token['userinfo']
-    return redirect('/home')
+    return redirect('/internships')
 
 def logout(request):
     request.session.pop('user', None)
-    return redirect('/home')
+    return redirect('/internships')

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+import re
 
 def auth_middleware(get_response):
     # One-time configuration and initialization.
@@ -11,15 +12,18 @@ def auth_middleware(get_response):
         response = get_response(request)
 
         protected_urls = [
-            "/app/form/"
+            "/internsips/form/",
+            "/internships/edit/"
         ]
 
-        router = request.path
+        # Remove all identifier digtis and other metadata to get the core url
+
+        router = re.sub("\d", "", request.path)
 
         if request.session.get('user') is None:
             if router in protected_urls:
 
-                return redirect('/app/home')
+                return redirect('/internships')
 
         # Code to be executed for each request/response after
         # the view is called.
