@@ -1,5 +1,8 @@
 django
 gunicorn
+pillow
+boto3
+botocore
 requests
 psycopg2-binary
 python-dotenv
