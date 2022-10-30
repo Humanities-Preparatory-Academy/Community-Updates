@@ -1,4 +1,6 @@
 import json
+import os
+from dotenv import load_dotenv
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -10,6 +12,9 @@ import io
 import base64
 from PIL import Image
 from django.core.files import File
+
+import boto3
+import botocore
 
 from .forms import (
     JobSubmitForm
@@ -80,20 +85,31 @@ class InternshipForm(View):
                 "time": form.cleaned_data['time']
             }
 
-            f = File(request.FILES['photo'])
-
-            print(f.read())
-            print(type(f.read()))
-            print(f.chunks())
-
             Image.open(request.FILES['photo']).save(f"community/media/{request.FILES['photo'].name}")
 
+            p = os.path.join(os.path.dirname(__file__), f"../community/media/{request.FILES['photo'].name}")
+            
             # Upload Files to block storage
+
+            load_dotenv()
+            session = boto3.session.Session()
+            client = session.client('s3',
+                    config=botocore.config.Config(s3={'addressing_style': 'virtual'}),
+                    region_name='nyc3',
+                    endpoint_url='https://nyc3.digitaloceanspaces.com',
+                    aws_access_key_id=os.getenv('DIGITAL_OCEAN_SPACES_ID'),
+                    aws_secret_access_key=os.getenv('DIGITAL_OCEAN_SPACES_SECRET_KEY')
+                )
+
+            resp = client.upload_file(p, 'humanitiesprep', request.FILES['photo'].name, ExtraArgs={'ContentType': "image/png", 'ACL':'public-read'})
+
+            print(resp)
 
             job = Job(
                     title= fields['title'],
                     description = fields['description'],
                     url = fields['url'],
+                    image = f"https://humanitiesprep.nyc3.digitaloceanspaces.com/{request.FILES['photo'].name}",
                     time_posted = fields['time']
                 )
 

@@ -7,6 +7,7 @@
     <p class="text-lg font-bold underline">{{ job.title }}<span class="float-right mr-2 text-md font-light underline"><a href="/internships/edit/{{ job.id }}">Edit</a></span></p>
     <p class="text-sm">Date Posted: {{ job.time_posted }}</p>
     <p class="mt-1 underline">{{ job.url }}</p>
+    <img class="max-h-64 rounded-md mx-auto" src="{{ job.image }}">
     <p class="mt-2">
       {{ job.description }}
     </p>
