@@ -17,6 +17,7 @@
           <li><a href="/internships">Internships</a></li>
           {% if 'user' in request.session %}
           <li> <a href="/auth/logout/">Logout</a></li>
+          <li> <a href="/internships/form/">Create</a></li>
           {% endif %}
           {% if 'user' not in request.session %}
           <li> <a href="/auth/login/">Login</a></li>
