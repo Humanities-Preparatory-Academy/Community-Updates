@@ -20,7 +20,8 @@
           <li> <a href="/internships/form/">Create</a></li>
           {% endif %}
           {% if 'user' not in request.session %}
-          <li> <a href="/auth/login/">Login</a></li>
+          <li> <a href="/auth/login/">Login (Unavailable)</a></li>
+          <li> <a href="/internships/form/">Create</a></li>
           {% endif %}
           <li><a>About</a></li>
         </ul>
