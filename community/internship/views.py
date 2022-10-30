@@ -6,6 +6,11 @@ from django.views import View
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
+import io
+import base64
+from PIL import Image
+from django.core.files import File
+
 from .forms import (
     JobSubmitForm
 )
@@ -75,9 +80,19 @@ class InternshipForm(View):
                 "time": form.cleaned_data['time']
             }
 
+            f = File(request.FILES['photo'])
+
+            print(f.read())
+            print(type(f.read()))
+            print(f.chunks())
+
+            Image.open(request.FILES['photo']).save(f"community/media/{request.FILES['photo'].name}")
+
+            # Upload Files to block storage
+
             job = Job(
                     title= fields['title'],
-                    description= fields['description'],
+                    description = fields['description'],
                     url = fields['url'],
                     time_posted = fields['time']
                 )

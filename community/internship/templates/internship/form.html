@@ -3,7 +3,7 @@
 {% block form %}
 <div class="container mx-auto w-1/2 mt-4 px-4 py-4 bg-neutral-100 border-2 border-neutral-400 drop-shadow-lg rounded-lg">
     Forms
-    <form action="/internships/{{ uri }}{{ id }}" method="post">
+    <form action="/internships/{{ uri }}{{ id }}" method="post" enctype = "multipart/form-data">
         {% csrf_token %}
         <div class="mt-4">
             <label class="text-md" for="id_title">Title</label>
@@ -19,6 +19,11 @@
             <label class="text-md" for="id_url">Link</label>
             <div></div>
             <input type="text" class="rounded" name="url" required id="id_url" value="{{ url }}">
+        </div>
+        <div class="mt-4">
+            <label class="text-md" for="id_photo">Link</label>
+            <div></div>
+            <input type="file" class="rounded" name="photo" required id="id_photo" value="{{ photo }}">
         </div>
         <div class="mt-4">
             <label class="text-md" for="id_time">Date</label>
