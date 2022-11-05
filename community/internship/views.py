@@ -13,8 +13,9 @@ import base64
 from PIL import Image
 from django.core.files import File
 
-import boto3
-import botocore
+from .utils.objectstorage import (
+    s3_client
+)
 
 from .forms import (
     JobSubmitForm
@@ -91,19 +92,9 @@ class InternshipForm(View):
             
             # Upload Files to block storage
 
-            load_dotenv()
-            session = boto3.session.Session()
-            client = session.client('s3',
-                    config=botocore.config.Config(s3={'addressing_style': 'virtual'}),
-                    region_name='nyc3',
-                    endpoint_url='https://nyc3.digitaloceanspaces.com',
-                    aws_access_key_id=os.getenv('DIGITAL_OCEAN_SPACES_ID'),
-                    aws_secret_access_key=os.getenv('DIGITAL_OCEAN_SPACES_SECRET_KEY')
-                )
+            client = s3_client()
 
-            resp = client.upload_file(p, 'humanitiesprep', request.FILES['photo'].name, ExtraArgs={'ContentType': "image/png", 'ACL':'public-read'})
-
-            print(resp)
+            client.upload_file(p, 'humanitiesprep', request.FILES['photo'].name, ExtraArgs={'ContentType': "image/png", 'ACL':'public-read'})
 
             job = Job(
                     title= fields['title'],
@@ -149,9 +140,25 @@ class InternshipFormUpdate(View):
                     "time": form.cleaned_data['time']
                 }
 
+            Image.open(request.FILES['photo']).save(f"community/media/{request.FILES['photo'].name}")
+
+            p = os.path.join(os.path.dirname(__file__), f"../community/media/{request.FILES['photo'].name}")
+
+            client = s3_client()
+
+            client.upload_file(p, 'humanitiesprep', request.FILES['photo'].name, ExtraArgs={'ContentType': "image/png", 'ACL':'public-read'})
+
+            job = Job(
+                    title= fields['title'],
+                    description = fields['description'],
+                    url = fields['url'],
+                    time_posted = fields['time']
+                )
+
             job.title = fields['title']
             job.description = fields['description']
             job.url = fields['url']
+            job.image = f"https://humanitiesprep.nyc3.digitaloceanspaces.com/{request.FILES['photo'].name}"
             job.time_posted = fields['time']
 
             job.save()
